@@ -33,6 +33,7 @@ jobs:
           - ntfy-manager-ha-app
           - nextcloud-ha-app
           - unbound-ha-app
+          - vaultwarden
     steps:
       - name: Delete old untagged versions
         continue-on-error: true

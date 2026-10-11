@@ -33,6 +33,7 @@ body:
         - teamspeak6
         - ts6_manager
         - unbound
+        - vaultwarden
         - Repo-weit / Tooling (nicht app-spezifisch)
     validations:
       required: true

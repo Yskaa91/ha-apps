@@ -23,11 +23,12 @@ remain under their respective upstream licenses.
 | Navidrome | Navidrome | https://github.com/navidrome/navidrome | See upstream license |
 | Nginx Proxy Manager | Nginx Proxy Manager | https://github.com/NginxProxyManager/nginx-proxy-manager | See upstream license |
 | Intiface Central | Intiface / Buttplug ecosystem | https://github.com/intiface | See upstream license |
+| Vaultwarden | Vaultwarden | https://github.com/dani-garcia/vaultwarden | AGPL-3.0 |
 
 ## Trademarks and Logos
 
 Names, logos and trademarks such as Home Assistant, TeamSpeak, ntfy,
-Matrix, SearXNG, Navidrome, Nginx Proxy Manager, Intiface and other
+Matrix, SearXNG, Navidrome, Nginx Proxy Manager, Intiface, Vaultwarden, Bitwarden and other
 third-party marks belong to their respective owners.
 
 Use of those names or logos in this repository is for identification,
