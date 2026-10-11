@@ -3,8 +3,8 @@ name: ntfy
 version: "1.2.10"
 slug: ntfy
 description: Self-hosted pub-sub notification service (ntfy.sh)
-url: https://github.com/pol4rfuchs/ha-apps
-image: ghcr.io/pol4rfuchs/ntfy
+url: https://github.com/yskaa91/ha-apps
+image: ghcr.io/yskaa91/ntfy
 apparmor: false
 arch:
   - aarch64

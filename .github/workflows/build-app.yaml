@@ -96,7 +96,7 @@ jobs:
                     f"({version_override!r}) — using the tag version, this is expected right "
                     f"after a release-please merge and gets reconciled by sync-versions shortly after.",
                     file=sys.stderr)
-          if not image.startswith("ghcr.io/pol4rfuchs/"):
+          if not image.startswith("ghcr.io/yskaa91/"):
               raise SystemExit(f"invalid image: {image}")
           if not version:
               raise SystemExit("missing version")

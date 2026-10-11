@@ -3,8 +3,8 @@ name: TeamSpeak 6 Server
 version: "1.1.22"
 slug: teamspeak6
 description: TeamSpeak 6 Voice Server for Raspberry Pi (ARM64/aarch64)
-url: https://github.com/pol4rfuchs/ha-apps
-image: ghcr.io/pol4rfuchs/teamspeak6
+url: https://github.com/yskaa91/ha-apps
+image: ghcr.io/yskaa91/teamspeak6
 arch:
   - aarch64
   - amd64

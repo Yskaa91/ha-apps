@@ -16,5 +16,5 @@ LABEL \
     io.hass.type="addon" \
     io.hass.arch="${BUILD_ARCH}" \
     io.hass.version="${BUILD_VERSION}" \
-    org.opencontainers.image.source="https://github.com/pol4rfuchs/ha-apps" \
+    org.opencontainers.image.source="https://github.com/yskaa91/ha-apps" \
     org.opencontainers.image.base.name="searxng/searxng:${SEARXNG_VERSION}"

@@ -5,8 +5,8 @@ description: >-
   store access
 version: "33.0.20"
 slug: nextcloud
-url: https://github.com/pol4rfuchs/ha-apps
-image: ghcr.io/pol4rfuchs/nextcloud
+url: https://github.com/yskaa91/ha-apps
+image: ghcr.io/yskaa91/nextcloud
 init: false
 arch:
   - aarch64

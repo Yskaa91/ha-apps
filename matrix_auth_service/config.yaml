@@ -5,8 +5,8 @@ description: >-
   Voraussetzung für Element X QR-Code-Login, MFA und moderne Clients.
 version: "1.0.4"
 slug: matrix_auth_service
-url: https://github.com/pol4rfuchs/ha-apps
-image: ghcr.io/pol4rfuchs/matrix_auth_service
+url: https://github.com/yskaa91/ha-apps
+image: ghcr.io/yskaa91/matrix_auth_service
 init: false
 map:
   - type: homeassistant_config

@@ -35,7 +35,7 @@ LABEL \
   org.opencontainers.image.title="WhatsApp Bridge (mautrix) HA Add-on" \
   org.opencontainers.image.version="${BUILD_VERSION}" \
   org.opencontainers.image.base.name="ghcr.io/hassio-addons/base:21.0.0" \
-  org.opencontainers.image.source="https://github.com/pol4rfuchs/ha-apps" \
+  org.opencontainers.image.source="https://github.com/yskaa91/ha-apps" \
   org.opencontainers.image.description="mautrix-whatsapp ${WHATSAPP_VERSION} als Application-Service Bridge für Matrix Synapse"
 
 SHELL ["/bin/ash", "-o", "pipefail", "-c"]

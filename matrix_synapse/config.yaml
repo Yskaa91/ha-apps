@@ -3,10 +3,10 @@ name: Matrix Server (ESS CE)
 description: >-
   Matrix Homeserver (Synapse) + Element Web + Element Call (Voice/Video) — ESS
   Community Edition Style
-version: "1.7.7"
+version: "1.8.0-swag"
 slug: matrix_server
-url: https://github.com/pol4rfuchs/ha-apps
-image: ghcr.io/pol4rfuchs/matrix_synapse
+url: https://github.com/yskaa91/ha-apps
+image: ghcr.io/yskaa91/matrix_synapse
 init: false
 map:
   - type: homeassistant_config
@@ -124,6 +124,8 @@ options:
   login_rate_limit_burst: 3
   registration_rate_limit_per_second: 0.17
   registration_rate_limit_burst: 3
+  webapp_source: swag
+  webapp_pin_version: auto
 schema:
   server_name: str
   element_web_url: url
@@ -158,3 +160,5 @@ schema:
   login_rate_limit_burst: int(1,50)
   registration_rate_limit_per_second: float(0.01,10)
   registration_rate_limit_burst: int(1,50)
+  webapp_source: "list(swag|upstream)"
+  webapp_pin_version: "str?"

@@ -3,8 +3,8 @@ name: "UniFi OS Control Center"
 version: "0.7.6"
 slug: "unifi_os_control_center"
 description: "Local-first UniFi OS monitoring and management for Home Assistant"
-url: "https://github.com/pol4rfuchs/ha-apps"
-image: "ghcr.io/pol4rfuchs/unifi_os_control_center"
+url: "https://github.com/yskaa91/ha-apps"
+image: "ghcr.io/yskaa91/unifi_os_control_center"
 arch:
   - aarch64
   - amd64

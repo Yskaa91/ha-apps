@@ -83,12 +83,12 @@ jobs:
                       raise SystemExit(f"{cfg}: missing {key}")
 
               image = scalar(text, "image").strip("'\"")
-              if not image.startswith("ghcr.io/pol4rfuchs/"):
-                  raise SystemExit(f"{cfg}: image must point to ghcr.io/pol4rfuchs/...")
+              if not image.startswith("ghcr.io/yskaa91/"):
+                  raise SystemExit(f"{cfg}: image must point to ghcr.io/yskaa91/...")
 
               url = scalar(text, "url").strip("'\"")
-              if url != "https://github.com/pol4rfuchs/ha-apps":
-                  raise SystemExit(f"{cfg}: url must be https://github.com/pol4rfuchs/ha-apps")
+              if url != "https://github.com/yskaa91/ha-apps":
+                  raise SystemExit(f"{cfg}: url must be https://github.com/yskaa91/ha-apps")
 
               arch = list_value(text, "arch")
               if not arch:

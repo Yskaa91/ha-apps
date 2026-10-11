@@ -15,7 +15,7 @@ LABEL \
     org.opencontainers.image.title="Restic Backup Home Assistant Add-on" \
     org.opencontainers.image.version="${BUILD_VERSION}" \
     org.opencontainers.image.base.name="ghcr.io/hassio-addons/base:21.0.0" \
-    org.opencontainers.image.source="https://github.com/pol4rfuchs/ha-apps" \
+    org.opencontainers.image.source="https://github.com/yskaa91/ha-apps" \
     org.opencontainers.image.description="Scheduled restic backups with ntfy alerting, packaged as a Home Assistant add-on"
 
 SHELL ["/bin/ash", "-o", "pipefail", "-c"]
