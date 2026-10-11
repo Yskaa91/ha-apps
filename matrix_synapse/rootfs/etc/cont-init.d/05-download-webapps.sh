@@ -55,13 +55,36 @@ webapp_api_url() {
     fi
 }
 
+# webapp_normalize_source <quelle> → "swag" oder "upstream" (Default: swag).
+# bashio::config liefert den String "null", wenn das Feld (noch) nicht in der
+# Supervisor-Konfiguration steht — dann darf nicht still auf upstream
+# zurückgeschaltet werden.
+webapp_normalize_source() {
+    case "${1:-}" in
+        swag|upstream) printf '%s' "$1" ;;
+        *) printf '%s' "swag" ;;
+    esac
+}
+
+# webapp_normalize_pin <pin> → "auto" oder der Tag.
+webapp_normalize_pin() {
+    case "${1:-}" in
+        ""|null) printf '%s' "auto" ;;
+        *) printf '%s' "$1" ;;
+    esac
+}
+
 # ── Dry-Run (nur für tests/download-urls.sh) ────────────────────────────────
 # SWAG_DRY_RUN=primary|fallback, SWAG_COMPONENT=element-web|element-call,
 # SWAG_SOURCE=swag|upstream, SWAG_PIN=auto|<tag>. Gibt genau eine aufgelöste
 # Release-API-URL aus und beendet sich vor jedem bashio-Aufruf.
 if [ -n "${SWAG_DRY_RUN:-}" ]; then
     case "${SWAG_DRY_RUN}" in
-        primary)  webapp_api_url "${SWAG_COMPONENT}" "${SWAG_SOURCE:-swag}" "${SWAG_PIN:-auto}" ;;
+        primary)
+            webapp_api_url "${SWAG_COMPONENT}" \
+                "$(webapp_normalize_source "${SWAG_SOURCE:-}")" \
+                "$(webapp_normalize_pin "${SWAG_PIN:-}")"
+            ;;
         fallback) webapp_api_url "${SWAG_COMPONENT}" upstream auto ;;
     esac
     exit 0
@@ -97,10 +120,8 @@ EC_VERSION_FILE="/data/matrix/.element-call_version"
 mkdir -p /data/matrix
 
 # Quelle und Pin genau einmal lesen (Rollback per Option, kein Rebuild nötig).
-WEBAPP_SOURCE="$(bashio::config 'webapp_source')"
-WEBAPP_PIN="$(bashio::config 'webapp_pin_version')"
-[ -n "${WEBAPP_SOURCE}" ] || WEBAPP_SOURCE="swag"
-[ -n "${WEBAPP_PIN}" ] || WEBAPP_PIN="auto"
+WEBAPP_SOURCE="$(webapp_normalize_source "$(bashio::config 'webapp_source')")"
+WEBAPP_PIN="$(webapp_normalize_pin "$(bashio::config 'webapp_pin_version')")"
 
 # ── Element Web ───────────────────────────────────────────────────────────
 EW_REPO="$(webapp_repo element-web "${WEBAPP_SOURCE}")"
