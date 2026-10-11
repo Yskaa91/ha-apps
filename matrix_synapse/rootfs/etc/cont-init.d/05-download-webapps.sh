@@ -110,8 +110,10 @@ if [ -n "${SWAG_DRY_RUN:-}" ]; then
 fi
 
 # webapp_fetch <url> <zielverzeichnis> <komponentenname> → 0 wenn index.html
-# gefunden und kopiert. Lädt ein Release-Tarball, extrahiert es und validiert
-# es anhand von index.html (flach oder in einem Unterordner, je nach Layout).
+# gefunden und kopiert. Lädt ein Release-Tarball, extrahiert es und wählt den
+# Payload-Root deterministisch: flaches index.html im Wurzelverzeichnis oder
+# sonst das erste Top-Level-Verzeichnis, das direkt ein index.html enthält.
+# Bewusst NICHT rekursiv suchen.
 webapp_fetch() {
     _wf_url="$1"
     _wf_dest="$2"
@@ -119,17 +121,31 @@ webapp_fetch() {
     if ! wget -q "${_wf_url}" -O /tmp/webapp-download.tar.gz 2>/dev/null; then
         return 1
     fi
+    # Vor dem Entpacken leeren: sonst liegt die vorherige Komponente noch in
+    # /tmp/webapp-extract und die Auswahl unten findet deren Dateien.
     rm -rf /tmp/webapp-extract
     mkdir -p /tmp/webapp-extract "${_wf_dest}"
     tar -xzf /tmp/webapp-download.tar.gz -C /tmp/webapp-extract 2>/dev/null
     rm -f /tmp/webapp-download.tar.gz
-    _wf_index="$(find /tmp/webapp-extract -name "index.html" | head -1)"
-    if [ -z "${_wf_index}" ]; then
+    # Payload-Root NICHT per "find -name index.html | head -1" bestimmen:
+    # Element Web liefert mehrere index.html mit (App-Root, mobile_guide/,
+    # decoder-ring/, widgets/element-call/), find liefert
+    # Dateisystem-Reihenfolge — auf dem Live-Host wurde dadurch das
+    # Element-Call-Widget nach /data/matrix/element-web kopiert.
+    _wf_src=""
+    if [ -f /tmp/webapp-extract/index.html ]; then
+        _wf_src="/tmp/webapp-extract"
+    else
+        for _wf_d in /tmp/webapp-extract/*/; do
+            if [ -f "${_wf_d}index.html" ]; then _wf_src="${_wf_d}"; break; fi
+        done
+    fi
+    if [ -z "${_wf_src}" ]; then
         bashio::log.error "❌ ${_wf_label}: index.html nicht gefunden!"
         return 1
     fi
     rm -rf "${_wf_dest:?}"/*
-    cp -r "$(dirname "${_wf_index}")/." "${_wf_dest}/"
+    cp -r "${_wf_src}"/. "${_wf_dest}/"
     return 0
 }
 
