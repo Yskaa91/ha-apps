@@ -2,9 +2,9 @@ name: 01 Add-on Lint
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, swag]
   push:
-    branches: [main]
+    branches: [main, swag]
   schedule:
     - cron: "17 2 * * 0"
   workflow_dispatch:
@@ -122,3 +122,40 @@ jobs:
 
           Required gate in this workflow is the static monorepo/layout lint above. The upstream linter is kept visible for cleanup work, but it is not allowed to block builds for legacy config defaults that are still accepted by the current add-on setup.
           MD
+
+  element-call-swag:
+    name: Element Call swag download
+    # Exercises the exact download the add-on performs for our Element Call
+    # build (Yskaa91/element-call releases), which the smoke fixture never
+    # reaches because it runs with enable_voice_calls: false. Runs where the
+    # swag work happens, not on main.
+    if: github.ref == 'refs/heads/swag' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - name: Resolve, download and verify the newest Element Call swag release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          repo=Yskaa91/element-call
+          tag="$(curl -sf -H "Authorization: Bearer ${GH_TOKEN}" \
+            "https://api.github.com/repos/${repo}/releases?per_page=100" \
+            | jq -r '[.[] | select(.tag_name | test("-swag\\.[0-9]+$"))][0].tag_name')"
+          if [ -z "${tag}" ] || [ "${tag}" = "null" ]; then
+            echo "::error::no *-swag.* release found for ${repo}"
+            exit 1
+          fi
+          asset="element-call-${tag}.tar.gz"
+          url="https://github.com/${repo}/releases/download/${tag}/${asset}"
+          echo "Downloading ${url}"
+          curl -sfL "${url}" -o "${asset}"
+          tar -xzf "${asset}"
+          root="element-call-${tag}"
+          test -f "${root}/index.html" || { echo "::error::${root}/index.html missing"; exit 1; }
+          test -d "${root}/assets" || { echo "::error::${root}/assets missing"; exit 1; }
+          grep -rqF "${tag}" "${root}/assets" \
+            || { echo "::error::version marker ${tag} not found under ${root}/assets"; exit 1; }
+          echo "Element Call ${tag}: index.html + assets/ + version marker OK"
