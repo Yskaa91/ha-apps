@@ -96,7 +96,11 @@ jobs:
                     f"({version_override!r}) — using the tag version, this is expected right "
                     f"after a release-please merge and gets reconciled by sync-versions shortly after.",
                     file=sys.stderr)
-          if not image.startswith("ghcr.io/yskaa91/"):
+          # This fork publishes its own add-ons under ghcr.io/yskaa91/ while the
+          # add-ons that are not forked here still declare their upstream
+          # ghcr.io/pol4rfuchs/ images — accept exactly those two owners, so
+          # either kind can be built from this repository. No other owner.
+          if not image.startswith(("ghcr.io/pol4rfuchs/", "ghcr.io/yskaa91/")):
               raise SystemExit(f"invalid image: {image}")
           if not version:
               raise SystemExit("missing version")

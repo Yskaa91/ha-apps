@@ -10,7 +10,7 @@ LABEL io.hass.arch="${BUILD_ARCH}" \
       io.hass.version="${BUILD_VERSION}" \
       org.opencontainers.image.title="UniFi OS Control Center" \
       org.opencontainers.image.description="Local-first UniFi OS control plane for Home Assistant" \
-      org.opencontainers.image.source="https://github.com/yskaa91/ha-apps"
+      org.opencontainers.image.source="https://github.com/pol4rfuchs/ha-apps"
 
 COPY requirements.txt /tmp/requirements.txt
 

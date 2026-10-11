@@ -1,10 +1,10 @@
 ---
 name: "Unbound"
 description: "Hardened recursive DNS resolver with built-in web UI"
-url: "https://github.com/yskaa91/ha-apps"
+url: "https://github.com/pol4rfuchs/ha-apps"
 version: "1.26.1-ha2-pol4r1"
 slug: "unbound"
-image: "ghcr.io/yskaa91/unbound"
+image: "ghcr.io/pol4rfuchs/unbound"
 init: false
 ingress: true
 ingress_port: 2137

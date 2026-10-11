@@ -3,8 +3,8 @@ name: Intiface Central
 description: Buttplug/Intiface Central mit WebGUI, MQTT Bridge und Home Assistant Entities
 version: "1.0.4"
 slug: intiface_central
-image: ghcr.io/yskaa91/intiface_central
-url: https://github.com/yskaa91/ha-apps
+image: ghcr.io/pol4rfuchs/intiface_central
+url: https://github.com/pol4rfuchs/ha-apps
 init: false
 arch:
   - amd64

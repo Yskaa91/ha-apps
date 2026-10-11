@@ -3,8 +3,8 @@ name: "Signal Bridge (mautrix)"
 version: "0.2609.0-ha1-pol4r1"
 slug: "matrix_signal_bridge"
 description: "mautrix-signal Application-Service Bridge für Matrix Synapse"
-url: https://github.com/yskaa91/ha-apps
-image: "ghcr.io/yskaa91/matrix_signal_bridge"
+url: https://github.com/pol4rfuchs/ha-apps
+image: "ghcr.io/pol4rfuchs/matrix_signal_bridge"
 arch:
   - aarch64
   - amd64

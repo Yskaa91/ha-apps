@@ -2,9 +2,9 @@
 name: SearXNG
 version: "1.0.35"
 slug: searxng
-image: ghcr.io/yskaa91/searxng
+image: ghcr.io/pol4rfuchs/searxng
 description: Privacy-respecting metasearch engine — kein Tracking, keine Profile.
-url: https://github.com/yskaa91/ha-apps
+url: https://github.com/pol4rfuchs/ha-apps
 arch:
   - aarch64
   - amd64

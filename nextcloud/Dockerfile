@@ -15,7 +15,7 @@ LABEL \
     io.hass.arch="${BUILD_ARCH}" \
     io.hass.type="addon" \
     io.hass.version="${BUILD_VERSION}" \
-    io.hass.url="https://github.com/yskaa91/ha-apps/tree/main/nextcloud" \
+    io.hass.url="https://github.com/pol4rfuchs/ha-apps/tree/main/nextcloud" \
     maintainer="pol4rfuchs"
 
 # ── System packages ───────────────────────────────────────────────────────────

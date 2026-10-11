@@ -57,7 +57,7 @@ LABEL \
   org.opencontainers.image.description="${BUILD_DESCRIPTION}" \
   org.opencontainers.image.vendor="Home Assistant Add-ons" \
   org.opencontainers.image.licenses="MIT" \
-  org.opencontainers.image.source="https://github.com/yskaa91/ha-apps" \
+  org.opencontainers.image.source="https://github.com/pol4rfuchs/ha-apps" \
   org.opencontainers.image.created="${BUILD_DATE}" \
   org.opencontainers.image.revision="${BUILD_REF}" \
   org.opencontainers.image.version="${BUILD_VERSION}"
