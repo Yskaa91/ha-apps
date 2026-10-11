@@ -412,6 +412,19 @@ Speicherst du im Admin-Panel (`/admin`) Einstellungen, schreibt Vaultwarden eine
 
 Mit `ip_header` (Standard `X-Real-IP`) liest Vaultwarden die Client-IP aus dem Header deines Proxys; sie wird für Rate-Limits genutzt. Standardmäßig wird der Header von allen nicht-öffentlichen Adressen akzeptiert (`local`). Liegt dein Proxy auf einer öffentlichen Adresse oder willst du enger einschränken, trage in `ip_header_trusted_proxies` die Proxy-IPs bzw. CIDR-Bereiche ein. Ohne Proxy `ip_header: none` setzen.
 
+### Lokaler und externer Zugriff
+
+**Lokal (LAN):** Der Web Vault braucht einen sicheren Kontext (HTTPS). Über `http://<HA-Host>:7277` funktionieren Registrierung und Login im Browser nicht. Zwei Wege:
+
+- **`ssl: true`:** Zertifikat und Schlüssel (RSA) liegen in `/ssl`, der Zugriff läuft über `https://<HA-Host>:7277`. Bei einem selbstsignierten Zertifikat die Browser-Warnung bestätigen.
+- **Reverse Proxy mit lokalem DNS-Rewrite:** Eine Domain wie `vault.example.com` zeigt im lokalen DNS auf den HA-Host. Der Proxy (z. B. Nginx Proxy Manager) terminiert HTTPS mit einem gültigen Zertifikat und leitet auf `http://<HA-Host>:7277` weiter, WebSocket-Support aktiv. `domain` auf `https://vault.example.com` setzen.
+
+**Extern (Internet):** Empfehlung **ok, aber nur über den Reverse Proxy mit TLS.** Den App-Port `7277` nie direkt per Port-Forward freigeben. Dazu:
+
+- `signups_allowed` abschalten, sobald die Konten angelegt sind.
+- Das Admin-Panel (`/admin`) nicht öffentlich erreichbar machen: `admin_token` leer lassen, wenn es nicht gebraucht wird, oder `/admin` im Proxy auf LAN bzw. VPN beschränken.
+- Zwei-Faktor-Anmeldung für alle Konten aktivieren.
+
 ### Datenschutz externer Dienste
 
 - `push_enabled`: Push läuft über das Bitwarden-Relay (externer Dienst, Geräte-Metadaten gehen dorthin). Installations-ID und -Key kommen von bitwarden.com/host; `push_region` muss zur Region der Keys passen.
