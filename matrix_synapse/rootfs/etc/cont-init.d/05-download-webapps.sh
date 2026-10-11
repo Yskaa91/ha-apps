@@ -67,12 +67,13 @@ if [ -n "${SWAG_DRY_RUN:-}" ]; then
     exit 0
 fi
 
-# webapp_fetch <url> <zielverzeichnis> → 0 wenn index.html gefunden und kopiert.
-# Lädt ein Release-Tarball, extrahiert es und validiert es anhand von
-# index.html (flach oder in einem Unterordner, je nach Build-Layout).
+# webapp_fetch <url> <zielverzeichnis> <komponentenname> → 0 wenn index.html
+# gefunden und kopiert. Lädt ein Release-Tarball, extrahiert es und validiert
+# es anhand von index.html (flach oder in einem Unterordner, je nach Layout).
 webapp_fetch() {
     _wf_url="$1"
     _wf_dest="$2"
+    _wf_label="$3"
     if ! wget -q "${_wf_url}" -O /tmp/webapp-download.tar.gz 2>/dev/null; then
         return 1
     fi
@@ -82,6 +83,7 @@ webapp_fetch() {
     rm -f /tmp/webapp-download.tar.gz
     _wf_index="$(find /tmp/webapp-extract -name "index.html" | head -1)"
     if [ -z "${_wf_index}" ]; then
+        bashio::log.error "❌ ${_wf_label}: index.html nicht gefunden!"
         return 1
     fi
     rm -rf "${_wf_dest:?}"/*
@@ -113,7 +115,7 @@ EW_INSTALLED=$(cat "${EW_VERSION_FILE}" 2>/dev/null || echo "")
 if [ "${EW_INSTALLED}" != "${EW_LATEST}" ]; then
     bashio::log.info "📥 Lade Element Web ${EW_LATEST} (installiert: ${EW_INSTALLED:-keine})..."
     EW_URL="https://github.com/${EW_REPO}/releases/download/${EW_LATEST}/element-${EW_LATEST}.tar.gz"
-    if webapp_fetch "${EW_URL}" /data/matrix/element-web; then
+    if webapp_fetch "${EW_URL}" /data/matrix/element-web "Element Web"; then
         echo "${EW_LATEST}" > "${EW_VERSION_FILE}"
         COUNT=$(find /data/matrix/element-web -type f | wc -l)
         bashio::log.info "✅ Element Web ${EW_LATEST} installiert (${COUNT} Dateien)"
@@ -128,7 +130,7 @@ if [ "${EW_INSTALLED}" != "${EW_LATEST}" ]; then
         EW_FB_URL="https://github.com/element-hq/element-web/releases/download/${EW_FB_LATEST}/element-${EW_FB_LATEST}.tar.gz"
         bashio::log.error "❌ Element Web Download fehlgeschlagen: ${EW_URL}"
         bashio::log.error "↩️  Fallback auf upstream: ${EW_FB_URL}"
-        if webapp_fetch "${EW_FB_URL}" /data/matrix/element-web; then
+        if webapp_fetch "${EW_FB_URL}" /data/matrix/element-web "Element Web"; then
             COUNT=$(find /data/matrix/element-web -type f | wc -l)
             bashio::log.info "⚠️  Element Web ${EW_FB_LATEST} aus upstream-Fallback installiert (${COUNT} Dateien) — Version-Datei bleibt unverändert, nächster Start probiert wieder ${WEBAPP_SOURCE}"
         else
@@ -210,7 +212,7 @@ if [ "${ENABLE_VOICE}" = "true" ]; then
             EC_URL="https://github.com/${EC_REPO}/releases/download/${EC_LATEST}/element-call-${EC_LATEST}.tar.gz"
         fi
 
-        if webapp_fetch "${EC_URL}" /data/matrix/element-call; then
+        if webapp_fetch "${EC_URL}" /data/matrix/element-call "Element Call"; then
             echo "${EC_LATEST}" > "${EC_VERSION_FILE}"
             COUNT=$(find /data/matrix/element-call -type f | wc -l)
             bashio::log.info "✅ Element Call ${EC_LATEST} installiert (${COUNT} Dateien)"
@@ -228,7 +230,7 @@ if [ "${ENABLE_VOICE}" = "true" ]; then
             fi
             bashio::log.error "❌ Element Call Download fehlgeschlagen: ${EC_URL}"
             bashio::log.error "↩️  Fallback auf upstream: ${EC_FB_URL}"
-            if webapp_fetch "${EC_FB_URL}" /data/matrix/element-call; then
+            if webapp_fetch "${EC_FB_URL}" /data/matrix/element-call "Element Call"; then
                 COUNT=$(find /data/matrix/element-call -type f | wc -l)
                 bashio::log.info "⚠️  Element Call ${EC_FB_LATEST} aus upstream-Fallback installiert (${COUNT} Dateien) — Version-Datei bleibt unverändert, nächster Start probiert wieder ${WEBAPP_SOURCE}"
             else
