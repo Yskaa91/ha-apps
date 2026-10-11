@@ -63,6 +63,27 @@ jobs:
           test ! -d "$addon/rootfs/etc/services.d"
           echo "${addon}: layout OK"
 
+      - name: Run add-on shell tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          addon="${{ matrix.addon }}"
+          # Cheap, hermetic checks that ship next to the add-on (e.g.
+          # matrix_synapse/tests/download-urls.sh — resolves the webapp
+          # download URLs without bashio or a container).
+          shopt -s nullglob
+          tests=("$addon"/tests/*.sh)
+          if [ "${#tests[@]}" -eq 0 ]; then
+            echo "${addon}: no shell tests"
+            exit 0
+          fi
+          for t in "${tests[@]}"; do
+            echo "::group::bash ${t}"
+            bash "$t"
+            echo "::endgroup::"
+          done
+          echo "${addon}: ${#tests[@]} shell test file(s) passed"
+
       # The upstream linter is a Docker container action. GitHub builds that
       # image in a pre-step *before* any job step runs, so a Docker Hub
       # timeout/429 fails the whole job and step-level continue-on-error cannot
