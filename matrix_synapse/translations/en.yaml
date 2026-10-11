@@ -99,3 +99,12 @@ configuration:
   registration_rate_limit_burst:
     name: Registration Rate Limit (burst)
     description: "Burst allowance for registration attempts before rate limiting kicks in."
+  webapp_source:
+    name: Webapp Source
+    description: "Where Element Web and Element Call are downloaded from: 'swag' = release tags of the Yskaa91 forks (required for the Discord-like voice features), 'upstream' = element-hq originals. Ketesa always comes from upstream."
+  element_web_pin_version:
+    name: Element Web Pin Version
+    description: "'auto' = newest Element Web release of the selected source. Or a release tag such as v1.12.30-swag.1 to roll back to exactly that build. A tag that does not exist is treated as a download failure: the add-on falls back to upstream for this start and does not record a version."
+  element_call_pin_version:
+    name: Element Call Pin Version
+    description: "'auto' = newest Element Call release of the selected source. Or a release tag such as v0.26.1-swag.1. Separate from the Element Web pin because the two forks use different tag namespaces."

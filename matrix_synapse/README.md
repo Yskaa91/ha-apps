@@ -84,6 +84,9 @@ First start takes 2–3 minutes. Element Web and Ketesa are downloaded at runtim
 | `element_call_url` | — | External HTTPS URL for Element Call. Only used if `enable_voice_calls` is `true`. |
 | `livekit_url` | — | WebSocket URL for LiveKit SFU (`wss://...`). Only used if `enable_voice_calls` is `true`. |
 | `livekit_jwt_url` | — | HTTPS URL for the LiveKit JWT bridge. Only used if `enable_voice_calls` is `true`. |
+| `webapp_source` | `swag` | Where Element Web and Element Call come from: `swag` = release tags of the Yskaa91 forks (needed for the Discord-like voice features), `upstream` = `element-hq/*` originals. Ketesa always comes from upstream. |
+| `element_web_pin_version` | `auto` | `auto` = newest release of the selected source; a tag (e.g. `v1.12.30-swag.1`) = exactly that Element Web release. Rollback knob for a bad Element Web build. A tag that does not exist is treated as a download failure: the add-on falls back to upstream for this start and does not record a version. |
+| `element_call_pin_version` | `auto` | Same, for Element Call (e.g. `v0.26.1-swag.1`). Separate option because the two forks tag in different namespaces — one shared pin would be wrong for the other component. |
 
 > ⚠️ `server_name` cannot be changed after the first start — it becomes the permanent Matrix ID (`@user:server_name`).
 

@@ -13,13 +13,19 @@
 #              Forks (Yskaa91/*). Nur so landen unsere Discord-artigen
 #              Voice-Features im Frontend.
 #   upstream — Original-Assets von element-hq/*.
-# Webapp-Pin (webapp_pin_version):
+# Rollback-Pins, eine Option je Komponente (element_web_pin_version /
+# element_call_pin_version):
 #   auto     — jeweils das neueste Release der gewählten Quelle.
-#   <tag>    — genau dieses Release (z.B. v1.12.30-swag.1). Rollback-Knopf:
-#              auf einen bekannten guten Fork-Build oder auf einen
-#              upstream-Tag stellen, ohne das Image neu zu bauen.
+#   <tag>    — genau dieses Release. Rollback-Knopf: auf einen bekannten guten
+#              Fork-Build oder auf einen upstream-Tag stellen, ohne das Image
+#              neu zu bauen. Beispiel: element_web_pin_version: v1.12.30-swag.1
+#              und element_call_pin_version: v0.26.1-swag.1 — die beiden Forks
+#              haben verschiedene Tag-Namespaces, deshalb gibt es zwei Optionen.
+#              Ein Pin, den es nicht gibt, wird NICHT still durch die
+#              hartkodierte Version ersetzt: das gilt als Download-Fehler und
+#              landet im Rollback-Pfad (upstream), ohne Version-Datei.
 # Ketesa hat keinen Fork und bleibt deshalb immer auf etkecc/ketesa
-# (releases/latest), unabhängig von webapp_source/webapp_pin_version.
+# (releases/latest), unabhängig von webapp_source und den Pins.
 #
 # set +e: bashio-Umgebung läuft mit set -e, d.h. ein einzelner fehlgeschlagener
 # Befehl (z.B. cp auf nicht existierenden Pfad) killt sonst sofort das ganze
@@ -67,6 +73,7 @@ webapp_normalize_source() {
 }
 
 # webapp_normalize_pin <pin> → "auto" oder der Tag.
+# Fehlende Option, leerer String und der bashio-"null"-String bedeuten auto.
 webapp_normalize_pin() {
     case "${1:-}" in
         ""|null) printf '%s' "auto" ;;
@@ -74,16 +81,28 @@ webapp_normalize_pin() {
     esac
 }
 
+# Pin einer Komponente im Dry-Run: die Optionen element_web_pin_version /
+# element_call_pin_version kommen hier aus der Umgebung statt aus bashio.
+# Produktiv wird derselbe Normalisierungs-Helfer auf bashio::config angewendet.
+webapp_dry_run_pin() {
+    case "$1" in
+        element-web) printf '%s' "${SWAG_ELEMENT_WEB_PIN_VERSION:-}" ;;
+        element-call) printf '%s' "${SWAG_ELEMENT_CALL_PIN_VERSION:-}" ;;
+        *) printf '%s' "" ;;
+    esac
+}
+
 # ── Dry-Run (nur für tests/download-urls.sh) ────────────────────────────────
 # SWAG_DRY_RUN=primary|fallback, SWAG_COMPONENT=element-web|element-call,
-# SWAG_SOURCE=swag|upstream, SWAG_PIN=auto|<tag>. Gibt genau eine aufgelöste
+# SWAG_SOURCE=swag|upstream, SWAG_ELEMENT_WEB_PIN_VERSION /
+# SWAG_ELEMENT_CALL_PIN_VERSION = auto|<tag>. Gibt genau eine aufgelöste
 # Release-API-URL aus und beendet sich vor jedem bashio-Aufruf.
 if [ -n "${SWAG_DRY_RUN:-}" ]; then
     case "${SWAG_DRY_RUN}" in
         primary)
             webapp_api_url "${SWAG_COMPONENT}" \
                 "$(webapp_normalize_source "${SWAG_SOURCE:-}")" \
-                "$(webapp_normalize_pin "${SWAG_PIN:-}")"
+                "$(webapp_normalize_pin "$(webapp_dry_run_pin "${SWAG_COMPONENT}")")"
             ;;
         fallback) webapp_api_url "${SWAG_COMPONENT}" upstream auto ;;
     esac
@@ -119,31 +138,56 @@ ADMIN_VERSION_FILE="/data/matrix/.ketesa_version"
 EC_VERSION_FILE="/data/matrix/.element-call_version"
 mkdir -p /data/matrix
 
-# Quelle und Pin genau einmal lesen (Rollback per Option, kein Rebuild nötig).
+# Quelle und Pins genau einmal lesen (Rollback per Option, kein Rebuild nötig).
+# Zwei getrennte Pins, weil die Tag-Namespaces der Forks verschieden sind:
+# Element Web v1.12.30-swag.<n>, Element Call v0.26.1-swag.<n>.
 WEBAPP_SOURCE="$(webapp_normalize_source "$(bashio::config 'webapp_source')")"
-WEBAPP_PIN="$(webapp_normalize_pin "$(bashio::config 'webapp_pin_version')")"
+EW_PIN="$(webapp_normalize_pin "$(bashio::config 'element_web_pin_version')")"
+EC_PIN="$(webapp_normalize_pin "$(bashio::config 'element_call_pin_version')")"
 
 # ── Element Web ───────────────────────────────────────────────────────────
 EW_REPO="$(webapp_repo element-web "${WEBAPP_SOURCE}")"
-EW_API="$(webapp_api_url element-web "${WEBAPP_SOURCE}" "${WEBAPP_PIN}")"
-bashio::log.info "🔍 Prüfe Element Web Version (Quelle: ${WEBAPP_SOURCE}, Pin: ${WEBAPP_PIN})..."
+EW_API="$(webapp_api_url element-web "${WEBAPP_SOURCE}" "${EW_PIN}")"
+bashio::log.info "🔍 Prüfe Element Web Version (Quelle: ${WEBAPP_SOURCE}, Pin: ${EW_PIN})..."
 EW_LATEST=$(curl -sf \
     "${EW_API}" \
     | jq -r .tag_name 2>/dev/null)
-[ -z "${EW_LATEST}" ] || [ "${EW_LATEST}" = "null" ] && EW_LATEST="v1.11.85"
+EW_PIN_MISSING=0
+if [ -z "${EW_LATEST}" ] || [ "${EW_LATEST}" = "null" ]; then
+    if [ "${EW_PIN}" = "auto" ]; then
+        # Netzwerkfehler/API-Ausfall: bisheriges Verhalten, letzte bekannte
+        # upstream-Version als Notnagel.
+        EW_LATEST="v1.11.85"
+    else
+        # Ein fehlender Pin ist ein echter Fehler: NICHT still auf die
+        # hartkodierte Version zurückfallen, sondern laut loggen und wie ein
+        # fehlgeschlagener swag-Download behandeln (upstream-Fallback, keine
+        # Version-Datei).
+        EW_LATEST=""
+        EW_PIN_MISSING=1
+        bashio::log.error "❌ Element Web: gepinnter Release-Tag ${EW_PIN} nicht gefunden: ${EW_API}"
+    fi
+fi
 EW_INSTALLED=$(cat "${EW_VERSION_FILE}" 2>/dev/null || echo "")
 
-if [ "${EW_INSTALLED}" != "${EW_LATEST}" ]; then
-    bashio::log.info "📥 Lade Element Web ${EW_LATEST} (installiert: ${EW_INSTALLED:-keine})..."
-    EW_URL="https://github.com/${EW_REPO}/releases/download/${EW_LATEST}/element-${EW_LATEST}.tar.gz"
-    if webapp_fetch "${EW_URL}" /data/matrix/element-web "Element Web"; then
+if [ "${EW_PIN_MISSING}" = "0" ] && [ "${EW_INSTALLED}" = "${EW_LATEST}" ]; then
+    bashio::log.info "✅ Element Web bereits aktuell (${EW_INSTALLED})"
+else
+    if [ "${EW_PIN_MISSING}" = "1" ]; then
+        EW_URL="https://github.com/${EW_REPO}/releases/download/${EW_PIN}/element-${EW_PIN}.tar.gz"
+    else
+        bashio::log.info "📥 Lade Element Web ${EW_LATEST} (installiert: ${EW_INSTALLED:-keine})..."
+        EW_URL="https://github.com/${EW_REPO}/releases/download/${EW_LATEST}/element-${EW_LATEST}.tar.gz"
+    fi
+    if [ "${EW_PIN_MISSING}" = "0" ] && webapp_fetch "${EW_URL}" /data/matrix/element-web "Element Web"; then
         echo "${EW_LATEST}" > "${EW_VERSION_FILE}"
         COUNT=$(find /data/matrix/element-web -type f | wc -l)
         bashio::log.info "✅ Element Web ${EW_LATEST} installiert (${COUNT} Dateien)"
-    elif [ "${WEBAPP_SOURCE}" = "swag" ]; then
-        # Rollback: unser Build ist kaputt/leer → einmal gegen upstream neu
-        # laden. Die Version-Datei wird dabei bewusst NICHT geschrieben, damit
-        # der nächste Start wieder unseren Build versucht.
+    elif [ "${WEBAPP_SOURCE}" = "swag" ] || [ "${EW_PIN_MISSING}" = "1" ]; then
+        # Rollback: unser Build ist kaputt/leer oder der Pin existiert nicht →
+        # einmal gegen upstream neu laden. Die Version-Datei wird dabei bewusst
+        # NICHT geschrieben, damit der nächste Start wieder unseren Build
+        # versucht.
         EW_FB_LATEST=$(curl -sf \
             "$(webapp_api_url element-web upstream auto)" \
             | jq -r .tag_name 2>/dev/null)
@@ -160,8 +204,6 @@ if [ "${EW_INSTALLED}" != "${EW_LATEST}" ]; then
     else
         bashio::log.error "❌ Element Web Download fehlgeschlagen!"
     fi
-else
-    bashio::log.info "✅ Element Web bereits aktuell (${EW_INSTALLED})"
 fi
 
 # ── Ketesa (ehem. Synapse Admin) UI ──────────────────────────────────────
@@ -212,32 +254,49 @@ fi
 ENABLE_VOICE=$(bashio::config 'enable_voice_calls')
 if [ "${ENABLE_VOICE}" = "true" ]; then
     EC_REPO="$(webapp_repo element-call "${WEBAPP_SOURCE}")"
-    EC_API="$(webapp_api_url element-call "${WEBAPP_SOURCE}" "${WEBAPP_PIN}")"
-    bashio::log.info "🔍 Prüfe Element Call Version (Quelle: ${WEBAPP_SOURCE}, Pin: ${WEBAPP_PIN})..."
+    EC_API="$(webapp_api_url element-call "${WEBAPP_SOURCE}" "${EC_PIN}")"
+    bashio::log.info "🔍 Prüfe Element Call Version (Quelle: ${WEBAPP_SOURCE}, Pin: ${EC_PIN})..."
     EC_LATEST=$(curl -sf \
         "${EC_API}" \
         | jq -r .tag_name 2>/dev/null)
-    [ -z "${EC_LATEST}" ] || [ "${EC_LATEST}" = "null" ] && EC_LATEST="v0.7.0"
+    EC_PIN_MISSING=0
+    if [ -z "${EC_LATEST}" ] || [ "${EC_LATEST}" = "null" ]; then
+        if [ "${EC_PIN}" = "auto" ]; then
+            EC_LATEST="v0.7.0"
+        else
+            # Wie bei Element Web: fehlender Pin = Download-Fehler, kein stiller
+            # Rückfall auf die hartkodierte Version.
+            EC_LATEST=""
+            EC_PIN_MISSING=1
+            bashio::log.error "❌ Element Call: gepinnter Release-Tag ${EC_PIN} nicht gefunden: ${EC_API}"
+        fi
+    fi
     EC_INSTALLED=$(cat "${EC_VERSION_FILE}" 2>/dev/null || echo "")
 
-    if [ "${EC_INSTALLED}" != "${EC_LATEST}" ]; then
-        bashio::log.info "📥 Lade Element Call ${EC_LATEST} (installiert: ${EC_INSTALLED:-keine})..."
+    if [ "${EC_PIN_MISSING}" = "0" ] && [ "${EC_INSTALLED}" = "${EC_LATEST}" ]; then
+        bashio::log.info "✅ Element Call bereits aktuell (${EC_INSTALLED})"
+    else
+        if [ "${EC_PIN_MISSING}" = "1" ]; then
+            EC_URL="https://github.com/${EC_REPO}/releases/download/${EC_PIN}/element-call-${EC_PIN}.tar.gz"
+        else
+            bashio::log.info "📥 Lade Element Call ${EC_LATEST} (installiert: ${EC_INSTALLED:-keine})..."
 
-        # Asset URL ermitteln (tarball oder zip)
-        EC_URL=$(curl -sf \
-            "${EC_API}" \
-            | jq -r '.assets[] | select(.name | test("element-call.*\\.tar\\.gz")) | .browser_download_url' \
-            | head -1)
+            # Asset URL ermitteln (tarball oder zip)
+            EC_URL=$(curl -sf \
+                "${EC_API}" \
+                | jq -r '.assets[] | select(.name | test("element-call.*\\.tar\\.gz")) | .browser_download_url' \
+                | head -1)
 
-        if [ -z "${EC_URL}" ]; then
-            EC_URL="https://github.com/${EC_REPO}/releases/download/${EC_LATEST}/element-call-${EC_LATEST}.tar.gz"
+            if [ -z "${EC_URL}" ]; then
+                EC_URL="https://github.com/${EC_REPO}/releases/download/${EC_LATEST}/element-call-${EC_LATEST}.tar.gz"
+            fi
         fi
 
-        if webapp_fetch "${EC_URL}" /data/matrix/element-call "Element Call"; then
+        if [ "${EC_PIN_MISSING}" = "0" ] && webapp_fetch "${EC_URL}" /data/matrix/element-call "Element Call"; then
             echo "${EC_LATEST}" > "${EC_VERSION_FILE}"
             COUNT=$(find /data/matrix/element-call -type f | wc -l)
             bashio::log.info "✅ Element Call ${EC_LATEST} installiert (${COUNT} Dateien)"
-        elif [ "${WEBAPP_SOURCE}" = "swag" ]; then
+        elif [ "${WEBAPP_SOURCE}" = "swag" ] || [ "${EC_PIN_MISSING}" = "1" ]; then
             # Rollback wie bei Element Web: einmal upstream, Version-Datei
             # bewusst nicht schreiben.
             EC_FB_API="$(webapp_api_url element-call upstream auto)"
@@ -261,8 +320,6 @@ if [ "${ENABLE_VOICE}" = "true" ]; then
             bashio::log.error "❌ Element Call Download fehlgeschlagen: ${EC_URL}"
             ls -la /tmp/webapp-extract/ || true
         fi
-    else
-        bashio::log.info "✅ Element Call bereits aktuell (${EC_INSTALLED})"
     fi
 fi
 

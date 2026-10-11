@@ -125,7 +125,8 @@ options:
   registration_rate_limit_per_second: 0.17
   registration_rate_limit_burst: 3
   webapp_source: swag
-  webapp_pin_version: auto
+  element_web_pin_version: auto
+  element_call_pin_version: auto
 schema:
   server_name: str
   element_web_url: url
@@ -161,4 +162,5 @@ schema:
   registration_rate_limit_per_second: float(0.01,10)
   registration_rate_limit_burst: int(1,50)
   webapp_source: "list(swag|upstream)"
-  webapp_pin_version: "str?"
+  element_web_pin_version: "str?"
+  element_call_pin_version: "str?"
