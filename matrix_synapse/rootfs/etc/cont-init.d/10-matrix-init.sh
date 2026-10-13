@@ -497,6 +497,11 @@ rtc:
   port_range_end: 30020
   tcp_port: 7881
   use_external_ip: true
+  # Router ohne NAT-Hairpin beantworten den Validierungs-Selbstping nie: ohne
+  # diesen Schalter verwirft LiveKit die per STUN gefundene öffentliche IPv4
+  # und wirbt nur Docker-interne + IPv6-Kandidaten an — IPv4-only Clients
+  # scheitern dann komplett (ICE failed, belegt 2026-10-13).
+  skip_external_ip_validation: true
 
 # API-Keys: Key=devkey, Secret=aus Addon-Config
 keys:
