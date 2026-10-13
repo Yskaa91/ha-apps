@@ -312,6 +312,20 @@ if [ "${ENABLE_VOICE}" = "true" ]; then
             echo "${EC_LATEST}" > "${EC_VERSION_FILE}"
             COUNT=$(find /data/matrix/element-call -type f | wc -l)
             bashio::log.info "✅ Element Call ${EC_LATEST} installiert (${COUNT} Dateien)"
+            # Die Widget-Kopie unter Element Web altert sonst still mit: Sie
+            # wird nur bei einem Element-Web-Wechsel neu geladen, nicht bei
+            # einem Element-Call-Wechsel. Configs (*.json) bleiben unangetastet.
+            if [ -d /data/matrix/element-web/widgets/element-call ]; then
+                rm -rf /data/matrix/element-web/widgets/element-call/assets \
+                    /data/matrix/element-web/widgets/element-call/index.html \
+                    /data/matrix/element-web/widgets/element-call/favicon.png
+                cp -r /data/matrix/element-call/assets \
+                    /data/matrix/element-call/index.html \
+                    /data/matrix/element-call/favicon.png \
+                    /data/matrix/element-web/widgets/element-call/ 2>/dev/null \
+                    && bashio::log.info "✅ Element-Call-Widget-Kopie synchronisiert" \
+                    || bashio::log.error "❌ Element-Call-Widget-Kopie konnte nicht synchronisiert werden"
+            fi
         elif [ "${WEBAPP_SOURCE}" = "swag" ] || [ "${EC_PIN_MISSING}" = "1" ]; then
             # Rollback wie bei Element Web: einmal upstream, Version-Datei
             # bewusst nicht schreiben.
