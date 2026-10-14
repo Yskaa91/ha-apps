@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/pol4rfuchs/ha-apps/main/matrix_synapse/logo.png" alt="Matrix Server Logo" width="500">
+<img src="https://raw.githubusercontent.com/yskaa91/ha-apps/swag/matrix_synapse/logo.png" alt="Matrix Server Logo" width="500">
 
 # 🔷 Matrix Server — Home Assistant Add-on
 
@@ -8,11 +8,13 @@
 
 <div align="center">
 
-[![GitHub Repo](https://img.shields.io/badge/GitHub-ha--apps-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/pol4rfuchs/ha-apps)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-ha--apps-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/yskaa91/ha-apps)
 [![Synapse Version](https://img.shields.io/badge/Synapse-%3E%3D1.162.0-0DBD8B?style=for-the-badge&logo=matrix&logoColor=white)](https://github.com/element-hq/synapse)
 [![Home Assistant Add-on](https://img.shields.io/badge/Home%20Assistant-Add--on-41BDF5?style=for-the-badge&logo=homeassistant&logoColor=white)](https://www.home-assistant.io/addons/)
 
 **Full Matrix homeserver stack — Synapse + Element Web + Element Call (Voice/Video) + Ketesa — as a single Home Assistant Add-on.**
+
+**Fork:** `Yskaa91/ha-apps` (`swag` branch), based on `pol4rfuchs/ha-apps`. Frontends default to the `Yskaa91/element-web` and `Yskaa91/element-call` swag releases; upstream `element-hq/*` remains available.
 
 </div>
 
@@ -24,15 +26,45 @@
 |---|---|---|
 | **Synapse** | pip floor, Renovate-tracked | Matrix homeserver |
 | **PostgreSQL 15** | Debian pkg | Database |
-| **Element Web** | latest (auto-fetched, version-tracked) | Web client |
-| **Element Call** | latest (auto-fetched, version-tracked) | Voice / Video calls |
-| **LiveKit SFU** | latest (auto-fetched, version-tracked) | WebRTC media server |
-| **Ketesa** (formerly Synapse Admin) | latest (auto-fetched, version-tracked) | Admin UI |
+| **Element Web** | swag fork latest by default (auto-fetched, version-tracked; upstream selectable) | Web client |
+| **Element Call** | swag fork latest by default (auto-fetched, version-tracked; upstream selectable) | Voice / Video calls |
+| **LiveKit SFU** | `livekit/livekit` latest (auto-fetched, version-tracked) | WebRTC media server |
+| **Ketesa** (formerly Synapse Admin) | `etkecc/ketesa` latest (auto-fetched, version-tracked) | Admin UI |
 | **S6-Overlay** | — | Multi-service init |
+| **Bundled in Element Call swag** | — | Discord-like theme, Reactions soundboard, DeepFilterNet3 default denoiser, GTCRN option |
 
-> ℹ️ The admin UI is [Ketesa](https://github.com/etkecc/ketesa) — the etke.cc project formerly known as Synapse Admin, renamed in 2026. It's a drop-in replacement of the original Awesome-Technologies fork, with wider Synapse compatibility and active maintenance. Element Web, Element Call, and Ketesa are all downloaded at first start and re-checked against upstream `latest` on every subsequent start — no manual updates needed.
+> ℹ️ The admin UI is [Ketesa](https://github.com/etkecc/ketesa) — the etke.cc project formerly known as Synapse Admin, renamed in 2026. It's a drop-in replacement of the original Awesome-Technologies fork, with wider Synapse compatibility and active maintenance. Element Web, Element Call, and Ketesa are downloaded at first start and re-checked against the selected source's `latest` on every subsequent start — no manual updates needed.
 >
 > ℹ️ Synapse itself works differently: it's `pip install`ed at **Docker build time**, not fetched at container start. A new Synapse release only lands once the image is rebuilt — Renovate opens a PR when a new PyPI release appears, and merging it triggers that rebuild.
+
+---
+
+## 🧬 Fork organization & dependencies
+
+This add-on is one of three coordinated forks under the GitHub user **Yskaa91**:
+
+| Repo | Role | Upstream |
+|---|---|---|
+| `Yskaa91/ha-apps` | This Home Assistant add-on (`matrix_synapse`) | `pol4rfuchs/ha-apps` |
+| `Yskaa91/element-web` | Element Web fork: sampled dark-cyan theme and widget wiring | `element-hq/element-web` |
+| `Yskaa91/element-call` | Element Call fork: Reactions soundboard, DeepFilterNet3 default denoiser, GTCRN option | `element-hq/element-call` |
+
+Each fork keeps an `upstream` remote and develops on a `swag` branch pinned to an upstream tag. Fork releases use `swag` tags: Element Web `v1.12.30-swag.<n>`, Element Call `v0.26.1-swag.<n>`, this add-on `1.8.3-swag`. Builds run only in GitHub Actions; release artifacts are GitHub Releases for the frontends and GHCR for the image (`ghcr.io/yskaa91/matrix_synapse:<version>`).
+
+Frontend fork features live under `src/swag/` in Element Call and as the theme asset in Element Web, with anchors recorded in `src/swag/anchors.md`. `webapp_source: upstream` or the pin options roll back to the originals without rebuilding the image.
+
+Dependencies are split by when they enter the system:
+
+| When | Dependency | Source |
+|---|---|---|
+| Image build | Debian base, Python venv, `matrix-synapse[all]>=1.162.0`, `psycopg2-binary`, `pyOpenSSL`, PostgreSQL 15, build tools, s6-overlay files | `Dockerfile` |
+| Container start | Element Web, Element Call, Ketesa webapps; LiveKit server; lk-jwt-service | GitHub Releases downloaded by `cont-init.d/03-download-binaries.sh` and `05-download-webapps.sh` |
+| Selected by `webapp_source` | Element Web / Element Call | `Yskaa91/*` forks by default, `element-hq/*` for `upstream` or fallback |
+| Always upstream | Ketesa admin UI | `etkecc/ketesa` |
+| Always upstream | LiveKit SFU and JWT bridge | `livekit/livekit`, `element-hq/lk-jwt-service` |
+| Bundled in Element Call swag releases | Theme assets, Reactions soundboard sounds, GTCRN vendored assets, DeepFilterNet3 WASM/model/worklet | Inside the Element Call tarball; no separate runtime download |
+
+The DeepFilterNet3 denoiser is not an add-on dependency: `@workadventure/noise-suppression@0.2.0` is bundled into the Element Call swag build, and only its `/deepfilternet` entrypoint is imported lazily. After every Element Call update the add-on syncs the Element Call widget copy under Element Web.
 
 ---
 
@@ -44,11 +76,13 @@
 Settings → Add-ons → Add-on Store → ⋮ → Repositories
 ```
 
-Add:
+Add this fork:
 
 ```text
-https://github.com/pol4rfuchs/ha-apps
+https://github.com/yskaa91/ha-apps
 ```
+
+The upstream repository remains `https://github.com/pol4rfuchs/ha-apps`; this fork is the one that serves the swag frontend builds by default.
 
 ### Step 2 — Install & configure
 
@@ -162,7 +196,7 @@ docker exec -it addon_local_matrix_server matrix-create-admin.sh
 └── .registration_secret            ← Auto-generated registration_shared_secret
 ```
 
-Element Web, Ketesa, Element Call, and (if voice is enabled) the LiveKit/lk-jwt-service binaries each compare their installed version against upstream `latest` on every add-on start and re-download automatically on mismatch — no manual action needed.
+Element Web, Ketesa, Element Call, and (if voice is enabled) the LiveKit/lk-jwt-service binaries each compare their installed version against the selected source's `latest` on every add-on start and re-download automatically on mismatch — no manual action needed. Ketesa, LiveKit and lk-jwt-service are always upstream; Element Web and Element Call follow `webapp_source` and their pins.
 
 To force a re-download of a specific component (e.g. after a corrupted extraction):
 
@@ -255,13 +289,18 @@ The Home Assistant add-on wrapper, metadata, Dockerfile, scripts,
 workflows and documentation in this directory are licensed under the
 Apache License 2.0.
 
-The upstream Matrix Synapse project is not relicensed by this repository
-and remains under its upstream license.
+The forked projects are not relicensed by this repository:
 
-Upstream:
+- Matrix Synapse: https://github.com/element-hq/synapse — Apache License 2.0
+- Element Web / Element Call forks: https://github.com/element-hq/element-web and https://github.com/element-hq/element-call — AGPL-3.0-only OR Element Commercial, see upstream repositories
+- Ketesa: https://github.com/etkecc/ketesa — upstream license
+- LiveKit: https://github.com/livekit/livekit — Apache License 2.0
+- lk-jwt-service: https://github.com/element-hq/lk-jwt-service — upstream license
 
-- Matrix Synapse: https://github.com/element-hq/synapse
-- Upstream license: AGPL-3.0, see upstream repository
+Bundled third-party assets inside the Element Call swag releases:
+
+- `@workadventure/noise-suppression` — MIT; DeepFilterNet upstream — MIT/Apache-2.0
+- Vendored GTCRN worklet/model — MIT, see `src/swag/nc/README.md` in the Element Call fork
 
 Third-party trademarks, logos, names and assets remain the property of
 their respective owners.
