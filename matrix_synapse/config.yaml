@@ -3,7 +3,7 @@ name: Matrix Server (ESS CE)
 description: >-
   Matrix Homeserver (Synapse) + Element Web + Element Call (Voice/Video) — ESS
   Community Edition Style
-version: "1.8.3-swag"
+version: "1.8.4-swag"
 slug: matrix_server
 url: https://github.com/yskaa91/ha-apps
 image: ghcr.io/yskaa91/matrix_synapse
@@ -58,6 +58,186 @@ ports:
   30018/udp: 30018
   30019/udp: 30019
   30020/udp: 30020
+  30021/udp: 30021
+  30022/udp: 30022
+  30023/udp: 30023
+  30024/udp: 30024
+  30025/udp: 30025
+  30026/udp: 30026
+  30027/udp: 30027
+  30028/udp: 30028
+  30029/udp: 30029
+  30030/udp: 30030
+  30031/udp: 30031
+  30032/udp: 30032
+  30033/udp: 30033
+  30034/udp: 30034
+  30035/udp: 30035
+  30036/udp: 30036
+  30037/udp: 30037
+  30038/udp: 30038
+  30039/udp: 30039
+  30040/udp: 30040
+  30041/udp: 30041
+  30042/udp: 30042
+  30043/udp: 30043
+  30044/udp: 30044
+  30045/udp: 30045
+  30046/udp: 30046
+  30047/udp: 30047
+  30048/udp: 30048
+  30049/udp: 30049
+  30050/udp: 30050
+  30051/udp: 30051
+  30052/udp: 30052
+  30053/udp: 30053
+  30054/udp: 30054
+  30055/udp: 30055
+  30056/udp: 30056
+  30057/udp: 30057
+  30058/udp: 30058
+  30059/udp: 30059
+  30060/udp: 30060
+  30061/udp: 30061
+  30062/udp: 30062
+  30063/udp: 30063
+  30064/udp: 30064
+  30065/udp: 30065
+  30066/udp: 30066
+  30067/udp: 30067
+  30068/udp: 30068
+  30069/udp: 30069
+  30070/udp: 30070
+  30071/udp: 30071
+  30072/udp: 30072
+  30073/udp: 30073
+  30074/udp: 30074
+  30075/udp: 30075
+  30076/udp: 30076
+  30077/udp: 30077
+  30078/udp: 30078
+  30079/udp: 30079
+  30080/udp: 30080
+  30081/udp: 30081
+  30082/udp: 30082
+  30083/udp: 30083
+  30084/udp: 30084
+  30085/udp: 30085
+  30086/udp: 30086
+  30087/udp: 30087
+  30088/udp: 30088
+  30089/udp: 30089
+  30090/udp: 30090
+  30091/udp: 30091
+  30092/udp: 30092
+  30093/udp: 30093
+  30094/udp: 30094
+  30095/udp: 30095
+  30096/udp: 30096
+  30097/udp: 30097
+  30098/udp: 30098
+  30099/udp: 30099
+  30100/udp: 30100
+  30101/udp: 30101
+  30102/udp: 30102
+  30103/udp: 30103
+  30104/udp: 30104
+  30105/udp: 30105
+  30106/udp: 30106
+  30107/udp: 30107
+  30108/udp: 30108
+  30109/udp: 30109
+  30110/udp: 30110
+  30111/udp: 30111
+  30112/udp: 30112
+  30113/udp: 30113
+  30114/udp: 30114
+  30115/udp: 30115
+  30116/udp: 30116
+  30117/udp: 30117
+  30118/udp: 30118
+  30119/udp: 30119
+  30120/udp: 30120
+  30121/udp: 30121
+  30122/udp: 30122
+  30123/udp: 30123
+  30124/udp: 30124
+  30125/udp: 30125
+  30126/udp: 30126
+  30127/udp: 30127
+  30128/udp: 30128
+  30129/udp: 30129
+  30130/udp: 30130
+  30131/udp: 30131
+  30132/udp: 30132
+  30133/udp: 30133
+  30134/udp: 30134
+  30135/udp: 30135
+  30136/udp: 30136
+  30137/udp: 30137
+  30138/udp: 30138
+  30139/udp: 30139
+  30140/udp: 30140
+  30141/udp: 30141
+  30142/udp: 30142
+  30143/udp: 30143
+  30144/udp: 30144
+  30145/udp: 30145
+  30146/udp: 30146
+  30147/udp: 30147
+  30148/udp: 30148
+  30149/udp: 30149
+  30150/udp: 30150
+  30151/udp: 30151
+  30152/udp: 30152
+  30153/udp: 30153
+  30154/udp: 30154
+  30155/udp: 30155
+  30156/udp: 30156
+  30157/udp: 30157
+  30158/udp: 30158
+  30159/udp: 30159
+  30160/udp: 30160
+  30161/udp: 30161
+  30162/udp: 30162
+  30163/udp: 30163
+  30164/udp: 30164
+  30165/udp: 30165
+  30166/udp: 30166
+  30167/udp: 30167
+  30168/udp: 30168
+  30169/udp: 30169
+  30170/udp: 30170
+  30171/udp: 30171
+  30172/udp: 30172
+  30173/udp: 30173
+  30174/udp: 30174
+  30175/udp: 30175
+  30176/udp: 30176
+  30177/udp: 30177
+  30178/udp: 30178
+  30179/udp: 30179
+  30180/udp: 30180
+  30181/udp: 30181
+  30182/udp: 30182
+  30183/udp: 30183
+  30184/udp: 30184
+  30185/udp: 30185
+  30186/udp: 30186
+  30187/udp: 30187
+  30188/udp: 30188
+  30189/udp: 30189
+  30190/udp: 30190
+  30191/udp: 30191
+  30192/udp: 30192
+  30193/udp: 30193
+  30194/udp: 30194
+  30195/udp: 30195
+  30196/udp: 30196
+  30197/udp: 30197
+  30198/udp: 30198
+  30199/udp: 30199
+  30200/udp: 30200
 ports_description:
   7080/tcp: Element Web Client
   7081/tcp: Element Call Voice/Video WebApp
@@ -90,6 +270,186 @@ ports_description:
   30018/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
   30019/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
   30020/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30021/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30022/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30023/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30024/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30025/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30026/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30027/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30028/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30029/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30030/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30031/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30032/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30033/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30034/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30035/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30036/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30037/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30038/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30039/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30040/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30041/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30042/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30043/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30044/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30045/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30046/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30047/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30048/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30049/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30050/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30051/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30052/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30053/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30054/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30055/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30056/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30057/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30058/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30059/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30060/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30061/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30062/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30063/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30064/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30065/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30066/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30067/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30068/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30069/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30070/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30071/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30072/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30073/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30074/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30075/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30076/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30077/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30078/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30079/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30080/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30081/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30082/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30083/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30084/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30085/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30086/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30087/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30088/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30089/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30090/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30091/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30092/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30093/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30094/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30095/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30096/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30097/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30098/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30099/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30100/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30101/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30102/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30103/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30104/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30105/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30106/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30107/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30108/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30109/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30110/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30111/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30112/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30113/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30114/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30115/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30116/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30117/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30118/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30119/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30120/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30121/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30122/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30123/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30124/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30125/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30126/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30127/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30128/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30129/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30130/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30131/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30132/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30133/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30134/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30135/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30136/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30137/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30138/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30139/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30140/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30141/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30142/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30143/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30144/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30145/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30146/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30147/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30148/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30149/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30150/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30151/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30152/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30153/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30154/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30155/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30156/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30157/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30158/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30159/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30160/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30161/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30162/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30163/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30164/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30165/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30166/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30167/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30168/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30169/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30170/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30171/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30172/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30173/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30174/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30175/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30176/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30177/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30178/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30179/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30180/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30181/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30182/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30183/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30184/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30185/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30186/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30187/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30188/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30189/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30190/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30191/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30192/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30193/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30194/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30195/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30196/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30197/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30198/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30199/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
+  30200/udp: LiveKit Media (direkter SFU-Port oder TURN-Relay, je nach livekit_turn_enabled)
 options:
   server_name: example.org
   element_web_url: https://example.org:7080

@@ -5,6 +5,16 @@ Alle wesentlichen Änderungen an diesem Projekt werden hier dokumentiert.
 
 ---
 
+## 1.8.4-swag (2026-11-08)
+
+### Changes
+
+* **matrix_synapse:** widen the LiveKit media port range from 30000-30020 to
+  30000-30200. The router already forwards the wider range; the add-on only
+  mapped 21 ports, so LiveKit reused ports quickly once several people joined
+  and left calls. Both the `rtc` candidate range and the TURN relay range now
+  match the router.
+
 ## [1.7.7](https://github.com/pol4rfuchs/ha-apps/compare/matrix_synapse-v1.7.6...matrix_synapse-v1.7.7) (2026-10-11)
 
 
