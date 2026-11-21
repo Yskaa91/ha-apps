@@ -5,6 +5,14 @@ Alle wesentlichen Änderungen an diesem Projekt werden hier dokumentiert.
 
 ---
 
+## 1.8.6-swag (2026-11-21)
+
+### Bug Fixes
+
+* **matrix_synapse:** remove the five-minute call membership expiry. Connected
+  clients sometimes failed to refresh their membership in time, so the room list
+  stopped showing calls that were still active.
+
 ## 1.8.4-swag (2026-11-08)
 
 ### Changes
