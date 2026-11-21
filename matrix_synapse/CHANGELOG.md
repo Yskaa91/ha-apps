@@ -5,6 +5,15 @@ Alle wesentlichen Änderungen an diesem Projekt werden hier dokumentiert.
 
 ---
 
+## 1.8.8-swag (2026-11-21)
+
+### Changes
+
+* **matrix_synapse:** re-enable the five-minute call membership expiry
+  (membership_event_expiry_ms). The earlier rollback was made while lk-jwt was
+  crash-looping, so the missing call indicators were never proven to come from
+  the expiry.
+
 ## 1.8.7-swag (2026-11-21)
 
 ### Bug Fixes
