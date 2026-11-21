@@ -688,7 +688,10 @@ if [ "${ENABLE_VOICE}" = "true" ]; then
     "livekit_service_url": "${LIVEKIT_JWT_URL}",
     "brand": "Element Call",
     "default_theme": "dark",
-    "showLabsSettings": false
+    "showLabsSettings": false,
+    "matrix_rtc_session": {
+        "membership_event_expiry_ms": 300000
+    }
 }
 EOF
     # Auch domain-spezifische config
