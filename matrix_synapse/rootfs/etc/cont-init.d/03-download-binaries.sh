@@ -64,10 +64,17 @@ fi
 [ -x "${BIN_DIR}/livekit-server" ] && ln -sf "${BIN_DIR}/livekit-server" /usr/local/bin/livekit-server
 
 # ── lk-jwt-service ───────────────────────────────────────────────────────────
+# Gepinnt auf v0.9.0. v0.10.0 (Release 2026-11-12) stirbt auf der AMD GX-415A
+# dieses Hosts alle 15-20 Sekunden mit Signal 4 (SIGILL) und wird von s6
+# endlos neu gestartet; /sfu/get antwortet dann sporadisch mit 502 und
+# Sprachanrufe lassen sich nicht starten. Das Binary selbst ist unversehrt
+# (Hash stimmt mit dem offiziellen Release ueberein), v0.9.0 laeuft stabil.
+# Beim Aktualisieren pruefen, ob der Bug behoben ist. Vorher v0.10.0 nicht
+# wieder eintragen.
+LKJWT_PINNED="v0.9.0"
+LKJWT_LATEST="${LKJWT_PINNED}"
 LKJWT_API_RESP=$(curl -sf --max-time 10 \
-    "https://api.github.com/repos/element-hq/lk-jwt-service/releases/latest" 2>/dev/null)
-LKJWT_LATEST=$(echo "${LKJWT_API_RESP}" | jq -r '.tag_name // empty' 2>/dev/null)
-[ -z "${LKJWT_LATEST}" ] && LKJWT_LATEST="v0.1.0"
+    "https://api.github.com/repos/element-hq/lk-jwt-service/releases/tags/${LKJWT_PINNED}" 2>/dev/null)
 LKJWT_INSTALLED=$(cat "${LKJWT_VERSION_FILE}" 2>/dev/null || echo "")
 
 if [ "${LKJWT_INSTALLED}" = "${LKJWT_LATEST}" ] && [ -x "${BIN_DIR}/lk-jwt-service" ]; then
@@ -80,9 +87,9 @@ else
         | jq -r ".assets[]? | select(.name | test(\"linux.*${LK_ARCH}\")) | .browser_download_url" \
         2>/dev/null | head -1)
 
-    # Fallback: direkter Binary-Name
+    # Fallback: direkter Asset-Name des Releases (Unterstrich, nicht Bindestrich)
     if [ -z "${LKJWT_URL}" ]; then
-        LKJWT_URL="https://github.com/element-hq/lk-jwt-service/releases/download/${LKJWT_LATEST}/lk-jwt-service-linux-${LK_ARCH}"
+        LKJWT_URL="https://github.com/element-hq/lk-jwt-service/releases/download/${LKJWT_LATEST}/lk-jwt-service_linux_${LK_ARCH}"
     fi
     bashio::log.info "   URL: ${LKJWT_URL}"
 

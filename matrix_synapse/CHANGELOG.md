@@ -5,6 +5,15 @@ Alle wesentlichen Änderungen an diesem Projekt werden hier dokumentiert.
 
 ---
 
+## 1.8.7-swag (2026-11-21)
+
+### Bug Fixes
+
+* **matrix_synapse:** pin lk-jwt-service to v0.9.0. v0.10.0 dies on this host
+  every 15-20 seconds with signal 4, so the SFU token endpoint answers 502
+  intermittently and calls cannot start. Also fix the fallback asset name,
+  which used hyphens instead of the release's underscores.
+
 ## 1.8.6-swag (2026-11-21)
 
 ### Bug Fixes
